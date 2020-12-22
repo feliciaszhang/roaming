@@ -2,6 +2,7 @@ import express from 'express'
 import http from 'http'
 import { Server, Socket } from 'socket.io'
 import {Message} from './model'
+import cors from "cors";
 
 export class ChatServer {
     public static readonly PORT:number = 8080
@@ -12,9 +13,20 @@ export class ChatServer {
 
     constructor() {
         this.app = express()
+        this.app.use(
+          cors({
+              origin: "http://localhost:3000",
+              credentials: true
+          }))
         this.port = process.env.PORT || ChatServer.PORT;
         this.httpServer = http.createServer(this.app)
-        this.io = new Server(this.httpServer)
+        this.io = new Server(this.httpServer, {
+          cors: {
+            origin: "http://localhost:3000",
+            methods: ["GET", "POST"],
+            credentials: true
+          }
+        });
         this.listen()
     }
 
