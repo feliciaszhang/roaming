@@ -36,14 +36,17 @@ export class ChatServer {
         });
     
         this.io.on("connect", (socket: Socket) => {
-          console.log("Connected client on port %s.", this.port);
+          socket.join("room1")
+          console.log("Connected client %s on port %s.", socket.id, this.port);
+
           socket.on("message", (m: Message) => {
-            console.log("[server](message): %s", JSON.stringify(m));
-            this.io.emit("message", m);
+            console.log("Received message from %s: %s", socket.id, JSON.stringify(m));
+            this.io.in("room1").emit("message", "server says hi")
           });
     
           socket.on("disconnect", () => {
-            console.log("Client disconnected");
+            console.log("Client %s disconnected", socket.id);
+            socket.leave("room1")
           });
         });
       }

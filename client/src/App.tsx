@@ -13,6 +13,7 @@ import { ColorModeSwitcher } from "./ColorModeSwitcher";
 import SocketService from "./SocketService";
 import { Form, Formik } from "formik";
 import { InputField } from "./components/InputField";
+import { valueScaleCorrection } from "framer-motion/types/render/dom/layout/scale-correction";
 
 export const App = () => {
   const ChatContext: React.Context<SocketService> = createContext(
@@ -29,7 +30,11 @@ export const App = () => {
           <VStack spacing={8}>
             <Formik
               initialValues={{ message: "" }}
-              onSubmit={(values) => socket.message(values.message)}
+              onSubmit={(values, {setSubmitting, resetForm}) => {
+                socket.message(values.message)
+                setSubmitting(false)
+                resetForm()
+              }}
             >
               {({ isSubmitting }) => (
                 <Form>
