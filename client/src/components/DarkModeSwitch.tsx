@@ -1,17 +1,8 @@
-import { useColorMode, Switch } from '@chakra-ui/react'
-import React, { InputHTMLAttributes, useEffect, useRef } from "react";
+import { useColorMode, Switch } from "@chakra-ui/react";
 
-type DarkModeSwitchProps = InputHTMLAttributes<HTMLInputElement> & {
-  handleToggleColor: (isDark:boolean) => void;
-};
-
-export const DarkModeSwitch: React.FC<DarkModeSwitchProps> = ({handleToggleColor}) => {
-  const { colorMode, toggleColorMode } = useColorMode()
-  const isDark = colorMode === 'dark'
-
-  useEffect(() => {
-    handleToggleColor(isDark)
-  })
+export const DarkModeSwitch: React.FC<{}> = () => {
+  const { colorMode, toggleColorMode } = useColorMode();
+  const isDark = colorMode === "dark";
 
   return (
     <Switch
@@ -22,5 +13,5 @@ export const DarkModeSwitch: React.FC<DarkModeSwitchProps> = ({handleToggleColor
       isChecked={isDark}
       onChange={toggleColorMode}
     />
-  )
-}
+  );
+};

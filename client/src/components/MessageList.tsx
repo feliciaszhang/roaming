@@ -1,6 +1,4 @@
 import React, { InputHTMLAttributes, useEffect, useRef } from "react";
-import { InputField } from "./InputField";
-import { Form, Formik } from "formik";
 import { Box, Button, ListItem, List } from "@chakra-ui/react";
 import { MessageItem } from "./MessageItem";
 

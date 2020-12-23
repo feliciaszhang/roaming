@@ -1,8 +1,12 @@
 import * as React from "react"
-import App from "./_app"
+import { NavBar } from "../components/NavBar";
+import Room from "../components/Room";
 
 const Index = () => (
-  <App />
+ <>
+  <NavBar />
+  <Room />
+</>
 )
 
 export default Index;
