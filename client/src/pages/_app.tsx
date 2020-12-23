@@ -1,13 +1,16 @@
 import React, { createContext, useRef } from "react";
-import {
-  ChakraProvider,
-  theme,
-} from "@chakra-ui/react";
+import { NavBar } from "../components/NavBar";
+import { Box, ChakraProvider, theme, Grid } from "@chakra-ui/react";
 
 function App({ Component, pageProps }: any) {
   return (
     <ChakraProvider theme={theme}>
-      <Component {...pageProps} />
+      <NavBar />
+        <Box fontSize="xl">
+          <Grid minH="100vh" paddingTop="90px" paddingBottom="90px">
+            <Component {...pageProps} />
+          </Grid>
+        </Box>
     </ChakraProvider>
   );
 }

@@ -1,12 +1,10 @@
-import * as React from "react"
-import { NavBar } from "../components/NavBar";
+import * as React from "react";
 import Room from "../components/Room";
 
 const Index = () => (
- <>
-  <NavBar />
-  <Room />
-</>
-)
+  <>
+    <Room />
+  </>
+);
 
 export default Index;
