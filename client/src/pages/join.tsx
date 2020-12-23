@@ -19,7 +19,7 @@ const Join: React.FC<{}> = ({}) => {
               <Flex align="center" direction="column">
             <InputField name="room" placeholder="room" label="Room" />
             <Button
-              ml={2}
+              mt={2}
               type="submit"
               colorScheme="teal"
               variant="solid"
