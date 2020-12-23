@@ -3,8 +3,8 @@ import { useSocket } from "../useSocket";
 import { SendField } from "./SendField";
 import { MessageList } from "./MessageList";
 
-const Room: React.FC<{}> = () => {
-  const { messageList, sendMessage } = useSocket("12");
+const Room: React.FC<{ room: string }> = ({ room }) => {
+  const { messageList, sendMessage } = useSocket(room);
   const { colorMode, toggleColorMode } = useColorMode();
 
   const handleSendMessage = (values: { message: string }) => {
