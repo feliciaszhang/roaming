@@ -10,6 +10,7 @@ import {
 import {DarkModeSwitch} from '../components/DarkModeSwitch'
 import SocketService from '../SocketService'
 import { MessageField } from "../components/MessageField";
+import { MessageListField } from "../components/MessageListField";
 
 export const App = () => {
   const ChatContext: React.Context<SocketService> = createContext(
@@ -24,10 +25,11 @@ export const App = () => {
 
   return (
     <ChakraProvider theme={theme}>
-      <Box textAlign="center" fontSize="xl">
+      <Box fontSize="xl">
         <Grid minH="100vh" p={3}>
           <DarkModeSwitch />
           <VStack spacing={8}>
+            <MessageListField />
             <MessageField handleSendMessage={handleSendMessage}/>
           </VStack>
         </Grid>
