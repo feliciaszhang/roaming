@@ -1,14 +1,14 @@
 import React, { InputHTMLAttributes } from "react";
-import { InputField } from "../components/InputField";
+import { InputField } from "./InputField";
 import { Form, Formik } from "formik";
 import { Box, Button, Flex } from "@chakra-ui/react";
 
-type MessageFieldProps = InputHTMLAttributes<HTMLInputElement> & {
+type SendFieldProps = InputHTMLAttributes<HTMLInputElement> & {
   handleSendMessage: ({ message: string }) => void;
 };
 
-export const MessageField: React.FC<MessageFieldProps> = (
-  props: MessageFieldProps
+export const SendField: React.FC<SendFieldProps> = (
+  props: SendFieldProps
 ) => {
   return (
     <Box m={4}>

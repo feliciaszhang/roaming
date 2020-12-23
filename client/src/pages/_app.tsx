@@ -9,8 +9,8 @@ import {
 } from "@chakra-ui/react";
 import { DarkModeSwitch } from "../components/DarkModeSwitch";
 import { useSocket } from "../useSocket";
-import { MessageField } from "../components/MessageField";
-import { MessageListField } from "../components/MessageListField";
+import { SendField } from "../components/SendField";
+import { MessageList } from "../components/MessageList";
 
 export const App = () => {
   const { messageList, sendMessage } = useSocket("12");
@@ -22,17 +22,14 @@ export const App = () => {
   return (
     <ChakraProvider theme={theme}>
       <Box fontSize="xl">
-        <Grid minH="100vh" p={3}>
+        <Grid minH="100vh" p={3} paddingBottom="90px">
           <DarkModeSwitch />
           <VStack spacing={8}>
-            <MessageListField messageList={messageList} />
-            <Flex
-              bottom={0}
-              position="fixed"
-              display="block"
-              width="100%"
-            >
-              <MessageField handleSendMessage={handleSendMessage} />
+            <Flex width="100%" alignItems="flex-start" overflow="hidden">
+              <MessageList messageList={messageList} />
+            </Flex>
+            <Flex bottom={0} position="fixed" display="block" width="100%" bg={"gray.800"}>
+              <SendField handleSendMessage={handleSendMessage} />
             </Flex>
           </VStack>
         </Grid>
