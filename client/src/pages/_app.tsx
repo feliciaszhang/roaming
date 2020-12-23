@@ -2,18 +2,15 @@ import React, { createContext, useContext } from "react";
 import {
   ChakraProvider,
   Box,
-  Text,
   VStack,
-  Code,
   Grid,
   theme,
   Button,
 } from "@chakra-ui/react";
-import { ColorModeSwitcher } from "./ColorModeSwitcher";
-import SocketService from "./SocketService";
+import {DarkModeSwitch} from '../components/DarkModeSwitch'
+import SocketService from '../SocketService'
+import { InputField } from "../components/InputField";
 import { Form, Formik } from "formik";
-import { InputField } from "./components/InputField";
-import { valueScaleCorrection } from "framer-motion/types/render/dom/layout/scale-correction";
 
 export const App = () => {
   const ChatContext: React.Context<SocketService> = createContext(
@@ -26,7 +23,7 @@ export const App = () => {
     <ChakraProvider theme={theme}>
       <Box textAlign="center" fontSize="xl">
         <Grid minH="100vh" p={3}>
-          <ColorModeSwitcher justifySelf="flex-end" />
+          <DarkModeSwitch />
           <VStack spacing={8}>
             <Formik
               initialValues={{ message: "" }}
