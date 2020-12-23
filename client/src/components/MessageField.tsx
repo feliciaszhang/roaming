@@ -11,7 +11,7 @@ export const MessageField: React.FC<MessageFieldProps> = (
   props: MessageFieldProps
 ) => {
   return (
-    <Box width="100%">
+    <Box m={4}>
       <Formik
         initialValues={{ message: "" }}
         onSubmit={(values, { setSubmitting, resetForm }) => {
@@ -29,7 +29,6 @@ export const MessageField: React.FC<MessageFieldProps> = (
                 label="Message"
               />
               <Button
-                mt={4}
                 ml={2}
                 type="submit"
                 colorScheme="teal"
