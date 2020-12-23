@@ -36,17 +36,23 @@ export class ChatServer {
         });
     
         this.io.on("connect", (socket: Socket) => {
-          socket.join("room1")
+          let room: string;
           console.log("Connected client %s on port %s.", socket.id, this.port);
+
+          socket.on('subscribe', (r: string) => { 
+            console.log('Client %s joined room %s', socket.id, r);
+            room = r
+            socket.join(room); 
+        })
 
           socket.on("message", (m: Message) => {
             console.log("Received message from %s: %s", socket.id, JSON.stringify(m));
-            this.io.in("room1").emit("message", "server says hi")
+            this.io.in(room).emit("message", "server says hi")
           });
     
           socket.on("disconnect", () => {
             console.log("Client %s disconnected", socket.id);
-            socket.leave("room1")
+            socket.leave(room)
           });
         });
       }
