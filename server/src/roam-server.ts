@@ -1,7 +1,6 @@
 import express from 'express'
 import http from 'http'
 import { Server, Socket } from 'socket.io'
-import {Message} from './model'
 import cors from "cors";
 
 export class ChatServer {
@@ -45,9 +44,9 @@ export class ChatServer {
             socket.join(room); 
         })
 
-          socket.on("message", (m: Message) => {
+          socket.on("message", (m: string) => {
             console.log("Received message from %s: %s", socket.id, JSON.stringify(m));
-            this.io.in(room).emit("message", "server says hi")
+            this.io.in(room).emit("message", m)
           });
     
           socket.on("disconnect", () => {

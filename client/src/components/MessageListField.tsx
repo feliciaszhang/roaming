@@ -4,20 +4,17 @@ import { Form, Formik } from "formik";
 import { Box, Button, ListItem, List } from "@chakra-ui/react";
 
 type MessageListFieldProps = InputHTMLAttributes<HTMLInputElement> & {
+  messageList: string[];
 };
 
-export const MessageListField: React.FC<MessageListFieldProps> = () => {
+export const MessageListField: React.FC<MessageListFieldProps> = ({
+  messageList,
+}) => {
   return (
-<List spacing={5}>
-<ListItem>
-    Lorem ipsum dolor sit amet, consectetur adipisicing elit
-  </ListItem>
-  <ListItem>
-    Lorem ipsum dolor sit amet, consectetur adipisicing elit
-  </ListItem>
-  <ListItem>
-    Lorem ipsum dolor sit amet, consectetur adipisicing elit
-  </ListItem>
-</List>
+    <List spacing={5}>
+      {messageList.map((message, i) => (
+        <ListItem>{message}</ListItem>
+      ))}
+    </List>
   );
 };
