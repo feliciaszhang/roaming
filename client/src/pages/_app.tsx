@@ -8,7 +8,7 @@ function App({ Component, pageProps }: any) {
     <Provider session={pageProps.session}>
       <ChakraProvider theme={theme}>
         <NavBar />
-        <Box fontSize="xl">
+        <Box>
           <Grid minH="100vh" paddingTop="90px" paddingBottom="90px">
             <Component {...pageProps} />
           </Grid>

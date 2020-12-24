@@ -15,7 +15,7 @@ const Room: React.FC<{ room: string }> = ({ room }) => {
 
   return (
     <VStack spacing={8}>
-      <Flex width="100%" alignItems="flex-start" overflow="hidden">
+      <Flex overflow="hidden" width="100%">
         <MessageList messageList={messageList} />
       </Flex>
       <Flex

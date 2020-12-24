@@ -5,20 +5,9 @@ const options = {
   site: process.env.SITE || 'http://localhost:3000',
 
   providers: [
-    Providers.Email({
-      server: {
-        port: 465,
-        host: 'smtp.gmail.com',
-        auth: {
-          user: process.env.EMAIL_USERNAME,
-          pass: process.env.EMAIL_PASSWORD,
-        },
-      },
-      from: process.env.EMAIL_FROM,
-    }),
     Providers.Google({
-      clientId: process.env.NEXT_PUBLIC_GOOGLE_ID,
-      clientSecret: process.env.NEXT_PUBLIC_GOOGLE_SECRET,
+      clientId: process.env.GOOGLE_ID,
+      clientSecret: process.env.GOOGLE_SECRET,
     }),
   ],
 
