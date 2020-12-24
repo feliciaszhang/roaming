@@ -1,14 +1,13 @@
 import { io, Socket } from "socket.io-client";
 import { useRef, useEffect, useState, useContext } from "react";
 import { Message, User } from "./types";
-import { useSession } from "next-auth/client";
 import { useToast } from "@chakra-ui/react";
-import { UserListContext } from "./pages/_app";
+import { useFetchUser, UserListContext } from "./pages/_app";
 
 export const useSocket = (
   room: string
 ): { messageList: Message[]; sendMessage: (message: Message) => void } => {
-  const [session, loading] = useSession();
+  const {sessionUser, loading} = useFetchUser();
   const toast = useToast();
   const [messageList, setMessageList] = useState([]);
   const socketRef = useRef<Socket>(null);
@@ -19,7 +18,7 @@ export const useSocket = (
       withCredentials: true,
     });
 
-    socketRef.current.emit("subscribe", { room: room, user: session.user });
+    socketRef.current.emit("subscribe", { room: room, user: sessionUser });
     console.log(
       "Client %s subscripted to room: %s",
       socketRef.current.id,
@@ -27,7 +26,7 @@ export const useSocket = (
     );
 
     socketRef.current.on("message", (message: Message) => {
-      console.log("Received message from server: %s", message);
+      console.log("Received message from server: %s", message.message);
       setMessageList((messageList) => [...messageList, message]);
     });
 
@@ -45,16 +44,16 @@ export const useSocket = (
     });
 
     socketRef.current.on("notification", (user: User) => {
-      console.log("%s has joined the chat", user.email);
-      if (!userList.has(user.email) && user.email !== session.user.email) {
+      console.log("%s has joined the chat", user.nickname);
+      if (!userList.has(user.nickname) && sessionUser.nickname !== user.nickname) {
         toast({
-          title: user.email + " has joined the chat",
+          title: user.nickname + " has joined the chat",
           status: "success",
           duration: 1500,
           isClosable: true,
         });
       }
-      setUserList(user.email);
+      setUserList(user.nickname);
     });
 
     return () => {
@@ -64,7 +63,7 @@ export const useSocket = (
   });
 
   const sendMessage = (message: Message): void => {
-    console.log("Client %s emitted message: %s", socketRef.current.id, message);
+    console.log("Client %s emitted message: %s", socketRef.current.id, message.message);
     socketRef.current.emit("message", message);
   };
 

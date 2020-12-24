@@ -41,18 +41,18 @@ export class ChatServer {
           console.log("Connected client %s on port %s.", socket.id, this.port);
 
           socket.on('subscribe', (subscription: Subscription) => { 
-            console.log('User %s joined room %s', subscription.user.email, subscription.room);
+            console.log('User %s joined room %s', subscription.user.nickname, subscription.room);
             room = subscription.room
             socket.join(room);
             this.io.in(room).emit("notification", subscription.user)
             let userList = this.map.get(subscription.room)
             if (userList !== undefined && userList.size > 0) {
-              userList.add(subscription.user.email)
+              userList.add(subscription.user.nickname)
               this.map.set(subscription.room, userList)
               this.io.in(room).emit("next", [...userList.keys()])
             } else {
               userList = new Set<string>()
-              userList.add(subscription.user.email)
+              userList.add(subscription.user.nickname)
               this.map.set(subscription.room, userList)
               this.io.in(room).emit("first")
             }

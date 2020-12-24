@@ -13,11 +13,11 @@ import {
 import React from "react";
 import { DarkModeSwitch } from "../components/DarkModeSwitch";
 import NextLink from "next/link";
-import { signin, signout, useSession } from "next-auth/client";
 import { BellIcon, CalendarIcon, ChatIcon } from "@chakra-ui/icons";
+import { useFetchUser } from "../pages/_app";
 
 export const NavBar: React.FC<{}> = () => {
-  const [session, loading] = useSession();
+  const {sessionUser, loading} = useFetchUser();
   const { colorMode, toggleColorMode } = useColorMode();
   const bgColor: string =
     colorMode === "dark" ? theme.colors.gray[700] : theme.colors.gray[200];
@@ -52,17 +52,17 @@ export const NavBar: React.FC<{}> = () => {
         <Spacer />
         <Flex align="center" justifyContent="flex-end">
           <HStack spacing={4}>
-            {!session && (
-              <NextLink href="/api/auth/signin">
+            {!sessionUser && (
+              <NextLink href="/api/login">
                 <Link>Sign in</Link>
               </NextLink>
             )}
-            {session && (
+            {sessionUser && (
               <>
                 <Avatar
                   size="xs"
-                  name={session.user.name}
-                  src={session.user.image}
+                  name={sessionUser.name}
+                  src={sessionUser.picture}
                 />
                 <NextLink href="/api/auth/signout">
                   <Link>Sign out</Link>

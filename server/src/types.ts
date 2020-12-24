@@ -5,5 +5,11 @@ export type Message = {
 
 export type Subscription = {
     room: string
-    user: {email: string, name: string}
+    user: User
+}
+
+export type User = {
+    nickname: string
+    name: string
+    picture: string
 }

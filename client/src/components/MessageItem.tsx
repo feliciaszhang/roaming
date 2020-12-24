@@ -11,7 +11,7 @@ import {
   VStack,
 } from "@chakra-ui/react";
 import { Message } from "../types";
-import { useSession } from "next-auth/client";
+import { useFetchUser } from "../pages/_app";
 
 type MessageItemProps = InputHTMLAttributes<HTMLInputElement> & {
   messageItem: Message;
@@ -20,8 +20,8 @@ type MessageItemProps = InputHTMLAttributes<HTMLInputElement> & {
 export const MessageItem: React.FC<MessageItemProps> = ({ messageItem }) => {
   const messageRef = useRef<HTMLInputElement>(null);
   const { colorMode, toggleColorMode } = useColorMode();
-  const [session, loading] = useSession();
-  const me: boolean = session.user.email === messageItem.from;
+  const {sessionUser, loading} = useFetchUser();
+  const me: boolean = sessionUser.nickname === messageItem.from;
 
   useEffect(() => {
     messageRef.current.scrollIntoView({ behavior: "smooth" });

@@ -4,6 +4,7 @@ export type Message = {
 }
 
 export type User = {
-    email: string
+    nickname: string
     name: string
+    picture: string
 }
