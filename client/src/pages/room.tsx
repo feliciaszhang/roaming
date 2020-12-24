@@ -1,10 +1,13 @@
 import { Box, VStack, Grid, theme, Flex, useColorMode } from "@chakra-ui/react";
 import { useSocket } from "../useSocket";
-import { SendField } from "./SendField";
-import { MessageList } from "./MessageList";
+import { SendField } from "../components/SendField";
+import { MessageList } from "../components/MessageList";
 import { signin, signout, useSession } from "next-auth/client";
+import { useRouter } from "next/router";
 
-const Room: React.FC<{ room: string }> = ({ room }) => {
+const Room: React.FC<{}> = () => {
+  const router = useRouter()
+  const room: string = (typeof (router.query.room) === 'string') ? router.query.room : ""
   const { messageList, sendMessage } = useSocket(room);
   const [session, loading] = useSession();
   const { colorMode, toggleColorMode } = useColorMode();
