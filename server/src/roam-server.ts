@@ -2,6 +2,7 @@ import express from 'express'
 import http from 'http'
 import { Server, Socket } from 'socket.io'
 import cors from "cors";
+import { Message } from './model';
 
 export class ChatServer {
     public static readonly PORT:number = 8080
@@ -44,8 +45,8 @@ export class ChatServer {
             socket.join(room); 
         })
 
-          socket.on("message", (m: string) => {
-            console.log("Received message from %s: %s", socket.id, JSON.stringify(m));
+          socket.on("message", (m: Message) => {
+            console.log("Received message from %s: %s", m.from, m.message);
             this.io.in(room).emit("message", m)
           });
     

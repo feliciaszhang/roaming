@@ -1,9 +1,10 @@
 import { io, Socket } from "socket.io-client";
 import { useRef, useEffect, useState } from "react";
+import { Message } from "./types";
 
 export const useSocket = (
   room: string
-): { messageList: string[]; sendMessage: (message: string) => void } => {
+): { messageList: Message[]; sendMessage: (message: Message) => void } => {
   const [messageList, setMessageList] = useState([]);
   const socketRef = useRef<Socket>(null);
 
@@ -15,7 +16,7 @@ export const useSocket = (
     socketRef.current.emit("subscribe", room);
     console.log("Client %s subscripted to room: %s", socketRef.current.id, room);
 
-    socketRef.current.on("message", (message: string) => {
+    socketRef.current.on("message", (message: Message) => {
       console.log("Received message from server: %s", message)
       setMessageList((messageList) => [...messageList, message])
     });
@@ -26,7 +27,7 @@ export const useSocket = (
     };
   });
 
-  const sendMessage = (message: string): void => {
+  const sendMessage = (message: Message): void => {
     console.log("Client %s emitted message: %s", socketRef.current.id, message);
     socketRef.current.emit("message", message);
   };

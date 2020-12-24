@@ -1,8 +1,9 @@
 import React, { InputHTMLAttributes, useEffect, useRef } from "react";
 import { Text, Button, ListItem, List } from "@chakra-ui/react";
+import { Message } from "../types";
 
 type MessageItemProps = InputHTMLAttributes<HTMLInputElement> & {
-  messageItem: string;
+  messageItem: Message;
 };
 
 export const MessageItem: React.FC<MessageItemProps> = ({messageItem}) => {
@@ -13,6 +14,9 @@ export const MessageItem: React.FC<MessageItemProps> = ({messageItem}) => {
   })
 
   return (
-    <Text ref={messageRef}>{messageItem}</Text>
+    <>
+    <Text ref={messageRef}>{messageItem.message}</Text>
+    <Text ref={messageRef}>{messageItem.from}</Text>
+    </>
   );
 };
