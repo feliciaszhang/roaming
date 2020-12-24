@@ -6,12 +6,15 @@ import {
   theme,
   Container,
   useColorMode,
+  Link,
 } from "@chakra-ui/react";
 import React from "react";
 import { DarkModeSwitch } from "../components/DarkModeSwitch";
 import NextLink from "next/link";
+import { signin, signout, useSession } from "next-auth/client";
 
 export const NavBar: React.FC<{}> = () => {
+  const [session, loading] = useSession();
   const { colorMode, toggleColorMode } = useColorMode();
 
   return (
@@ -27,11 +30,24 @@ export const NavBar: React.FC<{}> = () => {
     >
       <Flex align="center" justifyContent="flex-end">
         <HStack spacing={4}>
-          <Box>SomeName</Box>
-          <Button variant="link">Sign out</Button>
+          {!session && (
+            <NextLink href="/api/auth/signin">
+              <Link>Sign in</Link>
+            </NextLink>
+          )}
+          {session && (
+            <>
+              <Box>{session.user.email}</Box>
+              <NextLink href="/api/auth/signout">
+                <Link>Sign out</Link>
+              </NextLink>
+            </>
+          )}
           <DarkModeSwitch />
         </HStack>
       </Flex>
     </Flex>
   );
 };
+
+export default NavBar;
