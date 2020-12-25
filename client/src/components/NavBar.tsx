@@ -10,13 +10,16 @@ import {
   IconButton,
   Avatar,
 } from "@chakra-ui/react";
-import React from "react";
+import React, { useContext } from "react";
 import { DarkModeSwitch } from "../components/DarkModeSwitch";
 import NextLink from "next/link";
 import { signin, signout, useSession } from "next-auth/client";
 import { BellIcon, CalendarIcon, ChatIcon } from "@chakra-ui/icons";
+import { UserListContext } from "../pages/_app";
+import ActiveUsers from "./ActiveUsers";
 
 export const NavBar: React.FC<{}> = () => {
+  const { userList, setUserList } = useContext(UserListContext);
   const [session, loading] = useSession();
   const { colorMode, toggleColorMode } = useColorMode();
   const bgColor: string =
@@ -33,21 +36,22 @@ export const NavBar: React.FC<{}> = () => {
     >
       <HStack>
         <HStack spacing={10}>
-        <IconButton
-          aria-label="Calendar"
-          bg={bgColor}
-          icon={<CalendarIcon w={6} h={6} />}
-        />
-        <IconButton
-          aria-label="Messages"
-          bg={bgColor}
-          icon={<ChatIcon w={6} h={6} />}
-        />
-        <IconButton
-          aria-label="Notifications"
-          bg={bgColor}
-          icon={<BellIcon w={6} h={6} />}
-        />
+          <ActiveUsers names={Array.from(userList)} />
+          <IconButton
+            aria-label="Calendar"
+            bg={bgColor}
+            icon={<CalendarIcon w={6} h={6} />}
+          />
+          <IconButton
+            aria-label="Messages"
+            bg={bgColor}
+            icon={<ChatIcon w={6} h={6} />}
+          />
+          <IconButton
+            aria-label="Notifications"
+            bg={bgColor}
+            icon={<BellIcon w={6} h={6} />}
+          />
         </HStack>
         <Spacer />
         <Flex align="center" justifyContent="flex-end">
