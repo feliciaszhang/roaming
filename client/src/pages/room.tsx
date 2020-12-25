@@ -1,11 +1,12 @@
-import { Box, VStack, Grid, theme, Flex, useColorMode } from "@chakra-ui/react";
+import { Box, VStack, Grid, theme, Flex, useColorMode, propNames } from "@chakra-ui/react";
 import { useSocket } from "../useSocket";
 import { SendField } from "../components/SendField";
 import { MessageList } from "../components/MessageList";
-import { signin, signout, useSession } from "next-auth/client";
-import { useRouter } from "next/router";
+import { getSession, useSession } from "next-auth/client";
+import router, { useRouter } from "next/router";
+import { NextPage, NextPageContext } from "next";
 
-const Room: React.FC<{}> = () => {
+const Room: NextPage<{}> = () => {
   const router = useRouter()
   const room: string = (typeof (router.query.room) === 'string') ? router.query.room : ""
   const { messageList, sendMessage } = useSocket(room);
@@ -33,5 +34,20 @@ const Room: React.FC<{}> = () => {
     </VStack>
   );
 };
+
+export async function getServerSideProps(ctx) {
+  const session = await getSession(ctx)
+  if (!session) {
+    ctx.res.writeHead(302, { Location: '/api/auth/signin' })
+    ctx.res.end()
+    return {}
+  }
+
+  return {
+    props: {
+      user: session.user,
+    },
+  }
+}
 
 export default Room;
