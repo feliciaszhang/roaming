@@ -5,6 +5,7 @@ import { MessageList } from "../components/MessageList";
 import { getSession, useSession } from "next-auth/client";
 import router, { useRouter } from "next/router";
 import { NextPage, NextPageContext } from "next";
+import withAuth from "../withAuth";
 
 const Room: NextPage<{}> = () => {
   const router = useRouter()
@@ -50,4 +51,4 @@ export async function getServerSideProps(ctx) {
   }
 }
 
-export default Room;
+export default withAuth(Room);
