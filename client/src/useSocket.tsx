@@ -100,10 +100,10 @@ export const useSocket = (
     socketRef.current.emit("typing", from);
     if (!typing) {
       clearTimeout(timeout);
-      timeout = setTimeout((from) => timeoutFunction(from), 1000);
+      timeout = setTimeout((from) => timeoutFunction(from), 2000);
     } else {
       clearTimeout(timeout);
-      timeout = setTimeout((from) => timeoutFunction(from), 1000);
+      timeout = setTimeout((from) => timeoutFunction(from), 2000);
     }
   };
 

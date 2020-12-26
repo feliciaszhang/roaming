@@ -42,40 +42,40 @@ export const MessageItem: React.FC<MessageItemProps> = ({
     <Flex width="100%">
       {me ? <Spacer /> : null}
       <VStack align={me ? "flex-end" : "flex-start"}>
-        <Box
-          borderRadius="lg"
-          background={
-            colorMode === "dark"
-              ? me
-                ? theme.colors.gray[700]
-                : theme.colors.teal[600]
-              : me
-              ? theme.colors.gray[100]
-              : theme.colors.teal[300]
-          }
-          p={4}
-          flexGrow={1}
-          ml={me ? 20 : 0}
-          mr={me ? 0 : 20}
-        >
-          {messageItem ? (
-            <Text fontSize="xl" ref={messageRef} overflowWrap="anywhere">
+        {messageItem ? (
+          <Box
+            borderRadius="lg"
+            background={
+              colorMode === "dark"
+                ? me
+                  ? theme.colors.gray[700]
+                  : theme.colors.teal[600]
+                : me
+                ? theme.colors.gray[100]
+                : theme.colors.teal[300]
+            }
+            p={4}
+            flexGrow={1}
+            ml={me ? 20 : 0}
+            mr={me ? 0 : 20}
+          >
+            <Text fontSize="xl" overflowWrap="anywhere">
               {messageItem.message}
             </Text>
-          ) : (
-            <Text
-              fontSize="xl"
-              overflowWrap="anywhere"
-              color={
-                colorMode === "dark"
-                  ? theme.colors.teal[400]
-                  : theme.colors.teal[500]
-              }
-            >
-              Typing...
-            </Text>
-          )}
-        </Box>
+          </Box>
+        ) : (
+          <Text
+            fontSize="xl"
+            overflowWrap="anywhere"
+            color={
+              colorMode === "dark"
+                ? theme.colors.gray[500]
+                : theme.colors.gray[500]
+            }
+          >
+            Typing...
+          </Text>
+        )}
         {messageItem ? (
           <Text fontSize="xs" ref={messageRef}>
             {messageItem.from}
