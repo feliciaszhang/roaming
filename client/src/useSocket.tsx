@@ -7,12 +7,22 @@ import { UserListContext } from "./pages/_app";
 
 export const useSocket = (
   room: string
-): { messageList: Message[]; sendMessage: (message: Message) => void } => {
+): {
+  messageList: Message[];
+  sendMessage: (message: Message) => void;
+  typing: { isTyping: boolean; from: string };
+  showTyping: (from: string) => void;
+} => {
   const [session, loading] = useSession();
   const toast = useToast();
-  const [messageList, setMessageList] = useState([]);
+  const [messageList, setMessageList] = useState<Array<Message>>([]);
+  const [typing, setTyping] = useState<{ isTyping: boolean; from: string }>({
+    isTyping: false,
+    from: "",
+  });
   const socketRef = useRef<Socket>(null);
   const { userList, setUserList } = useContext(UserListContext);
+  let timeout = undefined;
 
   useEffect(() => {
     socketRef.current = io("http://localhost:8080/", {
@@ -26,13 +36,21 @@ export const useSocket = (
       room
     );
 
+    socketRef.current.on("typing", (from: string) => {
+      setTyping(() => ({ isTyping: true, from: from }));
+    });
+
+    socketRef.current.on("notTyping", (from: string) => {
+      setTyping(() => ({ isTyping: false, from: from }));
+    });
+
     socketRef.current.on("message", (message: Message) => {
-      console.log("Received message from server: %s", message);
+      console.log("Received message from server: %s", message.message);
       setMessageList((messageList) => [...messageList, message]);
     });
 
     socketRef.current.on("next", (userList: Array<string>) => {
-      userList.forEach((user) => setUserList(user))
+      userList.forEach((user) => setUserList(user));
     });
 
     socketRef.current.on("first", () => {
@@ -64,9 +82,30 @@ export const useSocket = (
   });
 
   const sendMessage = (message: Message): void => {
-    console.log("Client %s emitted message: %s", socketRef.current.id, message);
+    console.log(
+      "Client %s emitted message: %s",
+      socketRef.current.id,
+      message.message
+    );
     socketRef.current.emit("message", message);
   };
 
-  return { messageList, sendMessage };
+  const timeoutFunction = (from: string) => {
+    console.log("User is not typing");
+    socketRef.current.emit("notTyping");
+  };
+
+  const showTyping = (from: string): void => {
+    console.log("%s is typing", from);
+    socketRef.current.emit("typing", from);
+    if (!typing) {
+      clearTimeout(timeout);
+      timeout = setTimeout((from) => timeoutFunction(from), 1000);
+    } else {
+      clearTimeout(timeout);
+      timeout = setTimeout((from) => timeoutFunction(from), 1000);
+    }
+  };
+
+  return { messageList, sendMessage, typing, showTyping };
 };

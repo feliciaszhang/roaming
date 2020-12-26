@@ -1,21 +1,23 @@
-import React, { InputHTMLAttributes } from "react";
+import React, { InputHTMLAttributes, KeyboardEvent } from "react";
 import { InputField } from "./InputField";
 import { Form, Formik } from "formik";
 import { Box, Button, Flex } from "@chakra-ui/react";
 
 type SendFieldProps = InputHTMLAttributes<HTMLInputElement> & {
   handleSendMessage: ({ message: string }) => void;
+  handleKeyPress: (e: KeyboardEvent<HTMLInputElement>) => void;
 };
 
-export const SendField: React.FC<SendFieldProps> = (
-  props: SendFieldProps
-) => {
+export const SendField: React.FC<SendFieldProps> = ({
+  handleSendMessage,
+  handleKeyPress,
+}) => {
   return (
     <Box m={4}>
       <Formik
         initialValues={{ message: "" }}
         onSubmit={(values, { setSubmitting, resetForm }) => {
-          props.handleSendMessage(values);
+          handleSendMessage(values);
           setSubmitting(false);
           resetForm();
         }}
@@ -27,6 +29,7 @@ export const SendField: React.FC<SendFieldProps> = (
                 name="message"
                 placeholder="message"
                 label="Message"
+                handleKeyPress={handleKeyPress}
               />
               <Button
                 ml={2}
