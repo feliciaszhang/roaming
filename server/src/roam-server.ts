@@ -14,9 +14,10 @@ export class ChatServer {
 
   constructor() {
     this.app = express();
+    this.app.set("trust proxy", 1);
     this.app.use(
       cors({
-        origin: "http://localhost:3000",
+        origin: process.env.NEXT_PUBLIC_SITE,
         credentials: true,
       })
     );
@@ -24,7 +25,7 @@ export class ChatServer {
     this.httpServer = http.createServer(this.app);
     this.io = new Server(this.httpServer, {
       cors: {
-        origin: "http://localhost:3000",
+        origin: process.env.NEXT_PUBLIC_SITE,
         methods: ["GET", "POST"],
         credentials: true,
       },
