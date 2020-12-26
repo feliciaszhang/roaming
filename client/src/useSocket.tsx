@@ -25,7 +25,12 @@ export const useSocket = (
   let timeout = undefined;
 
   useEffect(() => {
-    socketRef.current = io("http://localhost:8080/", {
+    const url =
+      process.env.NODE_ENV === "development"
+        ? "http://localhost:8080/"
+        : "https://roaming-server.herokuapp.com/";
+    console.log(url);
+    socketRef.current = io(url, {
       withCredentials: true,
     });
 
