@@ -28,11 +28,8 @@ const Room: NextPage<{}> = () => {
 
   return (
     <VStack spacing={8}>
-      {typing.isTyping && typing.from !== session.user.email ? (
-        <Box>{typing.from} is Typing</Box>
-      ) : null}
       <Flex overflow="hidden" width="100%">
-        <MessageList messageList={messageList} />
+        <MessageList messageList={messageList} typing={typing} />
       </Flex>
       <Flex
         bottom={0}

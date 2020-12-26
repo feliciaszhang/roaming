@@ -14,17 +14,28 @@ import { Message } from "../types";
 import { useSession } from "next-auth/client";
 
 type MessageItemProps = InputHTMLAttributes<HTMLInputElement> & {
-  messageItem: Message;
+  messageItem?: Message;
+  typing?: { isTyping: boolean; from: string };
 };
 
-export const MessageItem: React.FC<MessageItemProps> = ({ messageItem }) => {
+export const MessageItem: React.FC<MessageItemProps> = ({
+  messageItem,
+  typing,
+}) => {
   const messageRef = useRef<HTMLInputElement>(null);
   const { colorMode, toggleColorMode } = useColorMode();
   const [session, loading] = useSession();
-  const me: boolean = session.user.email === messageItem.from;
+  let me: boolean;
+  if (messageItem) {
+    me = session.user.email === messageItem.from;
+  } else {
+    me = session.user.email === typing.from;
+  }
 
   useEffect(() => {
-    messageRef.current.scrollIntoView({ behavior: "smooth" });
+    if (messageItem) {
+      messageRef.current.scrollIntoView({ behavior: "smooth" });
+    }
   });
 
   return (
@@ -47,9 +58,29 @@ export const MessageItem: React.FC<MessageItemProps> = ({ messageItem }) => {
           ml={me ? 20 : 0}
           mr={me ? 0 : 20}
         >
-          <Text fontSize="xl" ref={messageRef} overflowWrap="anywhere">{messageItem.message}</Text>
+          {messageItem ? (
+            <Text fontSize="xl" ref={messageRef} overflowWrap="anywhere">
+              {messageItem.message}
+            </Text>
+          ) : (
+            <Text
+              fontSize="xl"
+              overflowWrap="anywhere"
+              color={
+                colorMode === "dark"
+                  ? theme.colors.teal[400]
+                  : theme.colors.teal[500]
+              }
+            >
+              Typing...
+            </Text>
+          )}
         </Box>
-        <Text fontSize="xs" ref={messageRef}>{messageItem.from}</Text>
+        {messageItem ? (
+          <Text fontSize="xs" ref={messageRef}>
+            {messageItem.from}
+          </Text>
+        ) : null}
       </VStack>
       {!me ? <Spacer /> : null}
     </Flex>
