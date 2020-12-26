@@ -2,3 +2,5 @@
 /dist
 .next
 .env.local
+.env.development
+.env.production

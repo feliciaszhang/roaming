@@ -29,7 +29,6 @@ export const useSocket = (
       process.env.NODE_ENV === "development"
         ? "http://localhost:8080/"
         : "https://roaming-server.herokuapp.com/";
-    console.log(url);
     socketRef.current = io(url, {
       withCredentials: true,
     });
