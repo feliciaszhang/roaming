@@ -83,7 +83,7 @@ export const useSocket = (
       console.log("Client %s disconneced", socketRef.current.id);
       socketRef.current.disconnect();
     };
-  });
+  }, []);
 
   const sendMessage = (message: Message): void => {
     console.log(
